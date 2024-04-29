@@ -7,6 +7,8 @@ import com.company.userregistrationapp.dto.response.TaskResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
 
@@ -18,5 +20,6 @@ public interface TaskMapper {
 
     TaskResponse convertToResponse(TaskEntity taskEntity);
 
+    List<TaskResponse> convertToResponseList(List<TaskEntity> taskEntityList);
 
 }

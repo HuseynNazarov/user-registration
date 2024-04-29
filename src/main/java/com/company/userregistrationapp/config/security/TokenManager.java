@@ -12,13 +12,15 @@ import java.util.Date;
 @Service
 public class TokenManager {
 
-    private static final int tokenExpired=5*60*1000;
+    @Value("${spring.security.accessToken.time}")
+    private Long accessExpirationTime;
 
-    Key key= Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
     public String generateToken(String username) {
 
         Date now = new Date(System.currentTimeMillis());
-        Date expiryDate = new Date(now.getTime() + tokenExpired);
+        Date expiryDate = new Date(now.getTime() + accessExpirationTime);
 
         return Jwts.builder()
                 .setSubject(username)
@@ -29,10 +31,8 @@ public class TokenManager {
     }
 
     public boolean tokenValidate(String token) {
-        if (getUserFromToken(token) != null && isExpired(token)) {
-            return true;
-        }
-        return false;
+
+        return getUserFromToken(token) != null && isExpired(token);
     }
 
     public String getUserFromToken(String token) {

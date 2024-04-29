@@ -21,7 +21,6 @@ public class TaskController {
 
     TaskService taskService;
 
-
     @GetMapping
     public ResponseEntity<?> getTasks(PageCriteria pageCriteria, SortingCriteria sortingCriteria){
         return ResponseEntity.ok(taskService.getTasks(pageCriteria,sortingCriteria));

@@ -48,10 +48,11 @@ public class AuthServiceImpl implements AuthService {
 
     private Authentication getAuthentication(String userName) {
 
-        SignedUserDetails signedUserDetails = new SignedUserDetails(
-                userName,
-                userName
-        );
+        SignedUserDetails signedUserDetails = SignedUserDetails
+                .builder()
+                .username(userName)
+                .email(userName)
+                .build();
 
         return new UsernamePasswordAuthenticationToken(signedUserDetails, "", null);
     }

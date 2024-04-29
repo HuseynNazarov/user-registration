@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import static com.company.userregistrationapp.enums.ExceptionEnum.USER_ALREADY_EXISTS;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -19,12 +21,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         return userRepository.findByUserNameOrEmail(username, username)
-                .orElseThrow(() -> new UserExistException(404, "User with username or email already exists"));
+                .orElseThrow(() -> new UserExistException(USER_ALREADY_EXISTS.getCode(),
+                        USER_ALREADY_EXISTS.getMessage()));
     }
-
-//    public UserEntity signedUser(String username) {
-//        return userRepository.findByUserName(username)
-//                .orElseThrow(() -> new UserExistException(404,"User with username or email already exists"));
-//}
 
 }
