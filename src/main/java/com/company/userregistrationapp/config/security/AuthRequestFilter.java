@@ -36,6 +36,5 @@ public class AuthRequestFilter extends OncePerRequestFilter {
         });
         filterChain.doFilter(request, response);
 
-
     }
 }

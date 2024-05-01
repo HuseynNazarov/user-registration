@@ -1,7 +1,7 @@
 package com.company.userregistrationapp.utill;
 
 import com.company.userregistrationapp.criteria.SortingCriteria;
-import com.company.userregistrationapp.enums.SortEnum;
+import com.company.userregistrationapp.dto.enums.SortEnum;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 

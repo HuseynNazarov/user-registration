@@ -2,7 +2,6 @@ package com.company.userregistrationapp.service.impl;
 
 import com.company.userregistrationapp.dao.entity.CategoryEntity;
 import com.company.userregistrationapp.dao.repository.CategoryRepository;
-import com.company.userregistrationapp.enums.ExceptionEnum;
 import com.company.userregistrationapp.exception.NotFoundException;
 import com.company.userregistrationapp.service.CategoryService;
 import lombok.AccessLevel;
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import static com.company.userregistrationapp.enums.ExceptionEnum.CATEGORY_NOT_FOUND;
+import static com.company.userregistrationapp.dto.enums.ExceptionEnum.CATEGORY_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository
                 .findById(id)
                 .orElseThrow(() ->
-                        NotFoundException.of(CATEGORY_NOT_FOUND.getCode(),
-                                String.format(CATEGORY_NOT_FOUND.getMessage(), id)));
+                        NotFoundException.of(CATEGORY_NOT_FOUND, id));
 
     }
 }

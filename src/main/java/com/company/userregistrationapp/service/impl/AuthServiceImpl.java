@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-import static com.company.userregistrationapp.enums.AuthEnum.AUTH_HEADER;
-import static com.company.userregistrationapp.enums.AuthEnum.BEARER_AUTH_HEADER;
+import static com.company.userregistrationapp.dto.constants.AuthConstant.AUTH_HEADER;
+import static com.company.userregistrationapp.dto.constants.AuthConstant.BEARER_AUTH_HEADER;
 
 @Service
 @RequiredArgsConstructor

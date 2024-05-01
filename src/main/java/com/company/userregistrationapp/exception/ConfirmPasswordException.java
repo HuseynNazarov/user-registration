@@ -1,19 +1,20 @@
 package com.company.userregistrationapp.exception;
 
+import com.company.userregistrationapp.dto.enums.ExceptionEnum;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
-public class ConfirmPasswordException extends RuntimeException{
-    private final int code;
-    private final String message;
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class ConfirmPasswordException extends RuntimeException {
+    int code;
+    String message;
 
-    public ConfirmPasswordException(int code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public static ConfirmPasswordException of(int code, String message) {
-        return new ConfirmPasswordException(code,
-                message);
+    public static ConfirmPasswordException of(ExceptionEnum exceptionEnum) {
+        return new ConfirmPasswordException(exceptionEnum.getCode(),
+                exceptionEnum.getMessage());
     }
 }

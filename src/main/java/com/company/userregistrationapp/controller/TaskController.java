@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tasks")
@@ -32,21 +35,25 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(CREATED)
     public ResponseEntity<?> saveTask(@Valid @RequestBody TaskSaveRequest request){
         return ResponseEntity.ok(taskService.saveTask(request));
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     public ResponseEntity<?> deleteTask(@PathVariable Long id){
         return ResponseEntity.ok(taskService.deleteTask(id));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     public ResponseEntity<?> updateTask(@RequestBody TaskUpdateRequest request){
         return ResponseEntity.ok(taskService.updateTask(request));
     }
 
-    @PatchMapping("/update-status")
+    @PatchMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     public ResponseEntity<?> updateTaskWithStatus(@RequestBody TaskUpdateRequest request){
         return ResponseEntity.ok(taskService.updateTaskWithStatus(request));
     }

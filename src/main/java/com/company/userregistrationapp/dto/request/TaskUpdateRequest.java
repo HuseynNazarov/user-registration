@@ -1,6 +1,6 @@
 package com.company.userregistrationapp.dto.request;
 
-import com.company.userregistrationapp.enums.TaskStatus;
+import com.company.userregistrationapp.dto.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Getter;

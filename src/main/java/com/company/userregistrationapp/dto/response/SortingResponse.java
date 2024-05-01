@@ -14,5 +14,6 @@ import java.util.List;
 public class SortingResponse {
     int totalPage;
     long totalElement;
+    boolean hasNext;
     List<TaskResponse> taskResponseList;
 }

@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.company.userregistrationapp.enums.ExceptionEnum.*;
+import static com.company.userregistrationapp.dto.enums.ExceptionEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -51,25 +51,22 @@ public class UserServiceImpl implements UserService {
     public ChangePasswordEntity findByCodeAndExpiredTimeAfter(String code) {
         return changePasswordRepository.findByCodeAndExpiredTimeAfter(code, LocalDateTime.now())
                 .orElseThrow(() ->
-                        new NotFoundException(RESET_CODE_NOT_FOUND.getCode(),
-                                String.format(RESET_CODE_NOT_FOUND.getMessage(), code)));
+                        NotFoundException.of(RESET_CODE_NOT_FOUND, code));
     }
 
     public UserEntity findByConfirmCode(String code) {
         return userRepository.findByConfirmCode(code)
-                .orElseThrow(() -> new NotFoundException(CONFIRM_CODE_NOT_FOUND.getCode(),
-                        String.format(CONFIRM_CODE_NOT_FOUND.getMessage(), code)));
+                .orElseThrow(() -> NotFoundException.of(CONFIRM_CODE_NOT_FOUND, code));
     }
 
     public UserEntity findByUserNameOrEmail(String userName) {
         return userRepository.findByUserNameOrEmail(userName, userName).orElseThrow(() ->
-                new UserNotFoundException(USER_NOT_EXISTS.getCode(), USER_NOT_EXISTS.getMessage()));
+                UserNotFoundException.of(USER_NOT_EXISTS));
     }
 
     public UserEntity findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() ->
-                new UserNotFoundException(USER_NOT_EXISTS.getCode(),
-                        USER_NOT_EXISTS.getMessage()));
+                UserNotFoundException.of(USER_NOT_EXISTS));
     }
 
     @Override
@@ -93,7 +90,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = findByUserNameOrEmail(userName);
 
         if (!userEntity.isEnabled()) {
-            throw new UserDisabledException(HttpStatus.UNAUTHORIZED.value(), EMAIL_IS_NOT_CONFIRMED.getMessage());
+            throw UserDisabledException.of(EMAIL_IS_NOT_CONFIRMED);
         }
 
         ChangePasswordEntity changePasswordEntity = ChangePasswordEntity
@@ -125,8 +122,7 @@ public class UserServiceImpl implements UserService {
         ChangePasswordEntity changePassword = findByCodeAndExpiredTimeAfter(request.getCode());
 
         if (request.getPassword().equals(request.getConfirmPassword())) {
-            throw new ConfirmPasswordException(PASSWORD_NOT_EQUAL_CONFIRM_PASSWORD.getCode(),
-                    PASSWORD_NOT_EQUAL_CONFIRM_PASSWORD.getMessage());
+            throw ConfirmPasswordException.of(PASSWORD_NOT_EQUAL_CONFIRM_PASSWORD);
         }
         UserEntity userEntity = findById(changePassword.getUserId());
 
@@ -142,8 +138,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = findByUserNameOrEmail(request.getUsername());
 
         if (!userEntity.isEnabled()) {
-            throw new UserDisabledException(EMAIL_IS_NOT_CONFIRMED.getCode(),
-                    EMAIL_IS_NOT_CONFIRMED.getMessage());
+            throw UserDisabledException.of(EMAIL_IS_NOT_CONFIRMED);
         }
 
         authenticationManager.authenticate(
@@ -165,8 +160,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new ConfirmPasswordException(PASSWORD_NOT_EQUAL_CONFIRM_PASSWORD.getCode(),
-                    PASSWORD_NOT_EQUAL_CONFIRM_PASSWORD.getMessage());
+            throw ConfirmPasswordException.of(PASSWORD_NOT_EQUAL_CONFIRM_PASSWORD);
         }
 
         UserEntity entity = new UserEntity();
@@ -181,13 +175,13 @@ public class UserServiceImpl implements UserService {
             MailDto mailDto = MailDto.builder()
                     .toAddress(entity.getEmail())
                     .subject("Confirm your mail")
-                    .content("Dear "+ entity.getUsername()+
+                    .content("Dear " + entity.getUsername() +
                             ",<br> Please click the link below to confirm your registration:<br>" +
-                            "<h3><a href="+ getSiteURL(httpServletRequest) +
-                            "/v1/user/confirm-mail?code=" + entity.getConfirmCode()+
+                            "<h3><a href=" + getSiteURL(httpServletRequest) +
+                            "/v1/user/confirm-mail?code=" + entity.getConfirmCode() +
                             " target='_self'>Confirm</a></h3>" +
                             "Thank you<br>")
-         .build();
+                    .build();
             mailSenderUtil.sendMail(mailDto);
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new MailSendException(504, "Error in sending mail");

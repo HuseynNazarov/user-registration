@@ -1,6 +1,6 @@
 package com.company.userregistrationapp.dto.response;
 
-import com.company.userregistrationapp.enums.TaskStatus;
+import com.company.userregistrationapp.dto.enums.TaskStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

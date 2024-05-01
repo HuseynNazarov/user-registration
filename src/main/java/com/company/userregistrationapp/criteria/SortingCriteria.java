@@ -1,6 +1,6 @@
 package com.company.userregistrationapp.criteria;
 
-import com.company.userregistrationapp.enums.SortEnum;
+import com.company.userregistrationapp.dto.enums.SortEnum;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;

@@ -4,6 +4,7 @@ import com.company.userregistrationapp.dto.response.CommonResponse;
 import com.company.userregistrationapp.dto.response.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandling {
     }
 
     @ExceptionHandler(InCorrectPasswordException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public CommonResponse<?> handleInCorrectPasswordException(InCorrectPasswordException ex) {
 
         return CommonResponse.error(new Status(ex.getCode(), ex.getMessage()));
@@ -37,7 +38,7 @@ public class GlobalExceptionHandling {
     }
 
     @ExceptionHandler(UserExistException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public CommonResponse<?> handleUserExistException(UserExistException ex) {
 
         return CommonResponse.error(new Status(ex.getCode(), ex.getMessage()));
@@ -55,7 +56,6 @@ public class GlobalExceptionHandling {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public CommonResponse<?> handleUserNotFoundException(UserNotFoundException ex) {
-
         return CommonResponse.error(new Status(ex.getCode(), ex.getMessage()));
 
     }
@@ -91,4 +91,15 @@ public class GlobalExceptionHandling {
 
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public CommonResponse<?> handleValidationException(MethodArgumentNotValidException ex) {
+        return handleBindingResult(ex.getBindingResult());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BindException.class)
+    public CommonResponse<?> handle(BindException ex) {
+        return handleBindingResult(ex.getBindingResult());
+    }
 }

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -23,6 +25,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/sign-up")
+    @ResponseStatus(CREATED)
     public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(userService.signUp(request, httpServletRequest));
     }

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import static com.company.userregistrationapp.enums.ExceptionEnum.USER_ALREADY_EXISTS;
+import static com.company.userregistrationapp.dto.enums.ExceptionEnum.USER_ALREADY_EXISTS;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         return userRepository.findByUserNameOrEmail(username, username)
-                .orElseThrow(() -> new UserExistException(USER_ALREADY_EXISTS.getCode(),
-                        USER_ALREADY_EXISTS.getMessage()));
+                .orElseThrow(() -> UserExistException.of(USER_ALREADY_EXISTS));
     }
 
 }

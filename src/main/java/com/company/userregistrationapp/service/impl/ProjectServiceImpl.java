@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import static com.company.userregistrationapp.enums.ExceptionEnum.PROJECT_NOT_FOUND;
+import static com.company.userregistrationapp.dto.enums.ExceptionEnum.PROJECT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +23,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository
                 .findById(id)
                 .orElseThrow(() ->
-                        NotFoundException.of(PROJECT_NOT_FOUND.getCode(),
-                                String.format(PROJECT_NOT_FOUND.getMessage(), id)));
+                        NotFoundException.of(PROJECT_NOT_FOUND, id));
 
     }
 }

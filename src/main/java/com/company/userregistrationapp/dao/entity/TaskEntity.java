@@ -1,6 +1,6 @@
 package com.company.userregistrationapp.dao.entity;
 
-import com.company.userregistrationapp.enums.TaskStatus;
+import com.company.userregistrationapp.dto.enums.TaskStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;

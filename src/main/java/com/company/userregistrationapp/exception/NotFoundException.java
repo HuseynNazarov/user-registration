@@ -1,19 +1,25 @@
 package com.company.userregistrationapp.exception;
 
+import com.company.userregistrationapp.dto.enums.ExceptionEnum;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
-public class NotFoundException extends RuntimeException{
-    private final int code;
-    private final String message;
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class NotFoundException extends RuntimeException {
+    int code;
+    String message;
 
-    public NotFoundException(int code, String message) {
-        this.code = code;
-        this.message = message;
+    public static NotFoundException of(ExceptionEnum exceptionEnum,Long id) {
+        return new NotFoundException(exceptionEnum.getCode(),
+                String.format(exceptionEnum.getMessage(),id));
     }
 
-    public static NotFoundException of(int code, String message) {
-        return new NotFoundException(code,
-                message);
+    public static NotFoundException of(ExceptionEnum exceptionEnum,String code) {
+        return new NotFoundException(exceptionEnum.getCode(),
+                String.format(exceptionEnum.getMessage(),code));
     }
 }

@@ -1,6 +1,6 @@
 package com.company.userregistrationapp.dao.entity;
 
-import com.company.userregistrationapp.enums.ProjectStatus;
+import com.company.userregistrationapp.dto.enums.ProjectStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

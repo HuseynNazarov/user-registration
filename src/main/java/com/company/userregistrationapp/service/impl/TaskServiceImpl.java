@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.company.userregistrationapp.enums.ExceptionEnum.TASK_NOT_FOUND;
-import static com.company.userregistrationapp.enums.TaskStatus.DELETED;
+import static com.company.userregistrationapp.dto.enums.ExceptionEnum.TASK_NOT_FOUND;
+import static com.company.userregistrationapp.dto.enums.TaskStatus.DELETED;
 import static com.company.userregistrationapp.mapper.TaskMapper.INSTANCE;
 
 @Service
@@ -65,6 +65,8 @@ public class TaskServiceImpl implements TaskService {
         SortingResponse response = new SortingResponse();
         response.setTotalPage(page.getTotalPages());
         response.setTotalElement(page.getTotalElements());
+        response.setHasNext(page.hasNext());
+
         response.setTaskResponseList(INSTANCE.convertToResponseList(page.getContent()));
         return CommonResponse.of(response, Status.success());
     }
@@ -143,7 +145,6 @@ public class TaskServiceImpl implements TaskService {
     public TaskEntity findTaskById(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() ->
-                        NotFoundException.of(TASK_NOT_FOUND.getCode(),
-                                String.format(TASK_NOT_FOUND.getMessage(), id)));
+                        NotFoundException.of(TASK_NOT_FOUND, id));
     }
 }
